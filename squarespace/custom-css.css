@@ -410,36 +410,72 @@ body:has(#lw) .section-border {
   background-color: #0b0b0a !important;
 }
 
-body:has(#lw) .page-section,
-body:has(#lw) .content-wrapper,
-body:has(#lw) .content,
-body:has(#lw) .sqs-layout,
-body:has(#lw) .fluid-engine,
-body:has(#lw) .row,
-body:has(#lw) .col,
-body:has(#lw) .sqs-block,
-body:has(#lw) .sqs-block-content,
-body:has(#lw) .sqs-html-content {
-  padding: 0 !important;
-  margin-top: 0 !important;
-  margin-bottom: 0 !important;
-  border: 0 !important;
+/* The section that contains the code block, and every Fluid Engine wrapper
+   between that section and #lw. Squarespace 7.1 places a Code block in a
+   grid cell with inline column spans, gutter variables, and overflow hidden.
+   Those cells were clipping the page into a narrow strip. */
+body:has(#lw) .page-section:has(#lw),
+body:has(#lw) .page-section:has(#lw) > .section-border,
+body:has(#lw) .page-section:has(#lw) > .content-wrapper,
+body:has(#lw) .page-section:has(#lw) .content-wrapper,
+body:has(#lw) .page-section:has(#lw) .content,
+body:has(#lw) .fluid-engine:has(#lw),
+body:has(#lw) .fe-block:has(#lw),
+body:has(#lw) .sqs-block:has(#lw),
+body:has(#lw) .sqs-block-code:has(#lw),
+body:has(#lw) .code-block:has(#lw),
+body:has(#lw) .sqs-block-content:has(#lw),
+body:has(#lw) .sqs-html-content:has(#lw),
+body:has(#lw) .sqs-layout:has(#lw),
+body:has(#lw) .row:has(#lw),
+body:has(#lw) .col:has(#lw) {
+  width: 100% !important;
   max-width: none !important;
+  min-width: 0 !important;
+  height: auto !important;
+  min-height: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  border: 0 !important;
+  overflow: visible !important;
+  box-sizing: border-box !important;
+  float: none !important;
+  position: relative !important;
+  left: auto !important;
+  right: auto !important;
+  top: auto !important;
+  transform: none !important;
+  inset: auto !important;
 }
 
-body:has(#lw) .fluid-engine {
+body:has(#lw) .fluid-engine:has(#lw) {
   display: block !important;
+  grid-template-columns: none !important;
+  grid-template-rows: none !important;
+  gap: 0 !important;
+  row-gap: 0 !important;
+  column-gap: 0 !important;
   --grid-gutter: 0px !important;
   --column-gap: 0px !important;
   --row-gap: 0px !important;
   --inset-padding: 0px !important;
+  --column-count: 1 !important;
+  --sqs-site-gutter: 0px !important;
+  --sqs-mobile-site-gutter: 0px !important;
+  --cell-max-width: 100% !important;
 }
 
 body:has(#lw) .fe-block:has(#lw) {
-  width: 100% !important;
-  max-width: none !important;
-  margin: 0 !important;
-  position: relative !important;
+  display: block !important;
+  grid-area: auto !important;
+  grid-column: 1 / -1 !important;
+  grid-row: auto !important;
+  --grid-row-start: 1 !important;
+  --grid-column-start: 1 !important;
+  --grid-row-end: auto !important;
+  --grid-column-end: -1 !important;
+  justify-self: stretch !important;
+  align-self: stretch !important;
 }
 
 /* Drop a Squarespace page-title section. The code block section stays. */
@@ -449,16 +485,127 @@ body:has(#lw) h1.page-title {
   display: none !important;
 }
 
-/* Break the block out of a centered content column if one remains. */
+/* Stay inside the (now full-width) section. A 100vw shift was being clipped
+   by the Fluid Engine block and showed up as a narrow slice of the page. */
 body:has(#lw) #lw {
-  width: 100vw;
-  max-width: 100vw;
-  position: relative;
-  left: 50%;
-  margin-left: -50vw;
-  margin-right: -50vw;
-  box-sizing: border-box;
+  width: 100% !important;
+  max-width: none !important;
+  min-width: 0 !important;
+  position: relative !important;
+  left: auto !important;
+  right: auto !important;
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+  box-sizing: border-box !important;
 }
+
+/* Squarespace site styles set heading color, text-transform, font, and a
+   paragraph max-width that survives on elements inside a code block. */
+#lw,
+#lw * {
+  max-width: none !important;
+}
+#lw h1,
+#lw h2,
+#lw h3,
+#lw h4,
+#lw p,
+#lw li,
+#lw a,
+#lw button,
+#lw label,
+#lw blockquote {
+  text-transform: none !important;
+  font-style: normal !important;
+}
+#lw h1,
+#lw h2,
+#lw h3,
+#lw .logo,
+#lw .pr b,
+#lw .svc h3,
+#lw .stack b,
+#lw .faq b,
+#lw .stamp b,
+#lw .legal h1,
+#lw .legal h2,
+#lw .assess h3 {
+  font-family: "Archivo Black", sans-serif !important;
+}
+#lw,
+#lw h1,
+#lw h2,
+#lw h3,
+#lw .legal p,
+#lw .legal li,
+#lw .legal blockquote {
+  color: var(--paper);
+}
+#lw h1,
+#lw h2,
+#lw h3,
+#lw .legal h1,
+#lw .legal h2,
+#lw .legal p,
+#lw .legal li,
+#lw .legal blockquote {
+  color: var(--paper) !important;
+}
+#lw h1 {
+  letter-spacing: -0.055em !important;
+  line-height: 0.86 !important;
+  font-weight: 400 !important;
+}
+#lw h1 span { color: var(--sig) !important; }
+#lw h2 {
+  letter-spacing: -0.05em !important;
+  line-height: 0.9 !important;
+  font-weight: 400 !important;
+}
+#lw .paper,
+#lw .paper h1,
+#lw .paper h2,
+#lw .paper h3,
+#lw .paper p,
+#lw .paper label,
+#lw .paper li,
+#lw .cta2,
+#lw .cta2 h2,
+#lw .cta2 .s,
+#lw .assess,
+#lw .assess h3,
+#lw .assess p,
+#lw .assess .tag {
+  color: var(--ink) !important;
+}
+#lw .pa,
+#lw .pa h2,
+#lw .pa h3,
+#lw .pa p,
+#lw .pa li,
+#lw .pa .pr b {
+  color: var(--ink) !important;
+}
+#lw .au h2 span { color: var(--mute) !important; font-family: "Archivo", sans-serif !important; font-weight: 300 !important; }
+#lw .tag,
+#lw .mono,
+#lw nav .links,
+#lw .card div,
+#lw .fine,
+#lw .svc .n,
+#lw .legal .updated {
+  font-family: "Geist Mono", monospace !important;
+}
+#lw .pl { max-width: 380px !important; }
+#lw .t p { max-width: 560px !important; }
+#lw .au .l p,
+#lw .loc p { max-width: 560px !important; }
+#lw .assess p { max-width: 720px !important; }
+#lw .legal .doc { max-width: 760px !important; }
+#lw .legal p,
+#lw .legal ul,
+#lw .legal ol { max-width: 68ch !important; }
+#lw .wrap { grid-template-columns: repeat(12, minmax(0, 1fr)); }
 
 /* Template buttons and headings should not restyle the design. */
 #lw .seg button {
@@ -497,4 +644,71 @@ body:has(#lw) #lw {
     font-size: 13px !important;
     padding: 10px 6px !important;
   }
+}
+
+/* Desktop sizes, after the template overrides. Inline 52px headlines keep
+   their size. The media queries below win on smaller viewports. */
+#lw h1 { font-size: 150px !important; }
+#lw .legal h1 { font-size: 72px !important; }
+#lw h2 { font-size: 72px !important; }
+#lw h2[style*="font-size:52px"] { font-size: 52px !important; }
+#lw .cta2 h2 { font-size: 120px !important; }
+#lw .legal h2 { font-size: 28px !important; }
+#lw h3,
+#lw .svc h3 { font-size: 28px !important; }
+#lw .assess h3 { font-size: 36px !important; }
+#lw .pr b { font-size: 112px !important; color: var(--sig) !important; }
+#lw .pa .pr b { color: var(--ink) !important; }
+#lw .btn.y,
+#lw nav .cta { color: var(--ink) !important; background: var(--sig) !important; }
+#lw .btn.k,
+#lw .cta2 .btn { color: var(--sig) !important; background: var(--ink) !important; }
+#lw .card em { color: var(--sig) !important; }
+#lw p,
+#lw li { color: var(--paper) !important; }
+#lw .paper p,
+#lw .assess p,
+#lw .pa p,
+#lw .pa li,
+#lw .cta2 .s { color: var(--ink) !important; }
+#lw .pl,
+#lw .faq p,
+#lw .svc p { color: var(--mute) !important; }
+#lw .paper .disc { color: #5d5a52 !important; }
+
+@media (max-width: 1100px) {
+  #lw .wrap > *,
+  #lw .t,
+  #lw .t p,
+  #lw .card,
+  #lw .plan,
+  #lw .plans,
+  #lw .calc,
+  #lw .pr,
+  #lw .pr b,
+  #lw .legal .doc,
+  #lw .legal p,
+  #lw .legal ul,
+  #lw .legal ol,
+  #lw .pl,
+  #lw .loc p,
+  #lw .au .l p,
+  #lw .assess p {
+    max-width: 100% !important;
+  }
+  #lw h1 { font-size: 56px !important; }
+  #lw h2,
+  #lw h2[style*="font-size:52px"] { font-size: 40px !important; }
+  #lw .legal h1 { font-size: 48px !important; }
+  #lw .legal h2 { font-size: 26px !important; }
+  #lw .cta2 h2 { font-size: 56px !important; }
+  #lw .pr b { font-size: 96px !important; }
+}
+@media (max-width: 640px) {
+  #lw h1 { font-size: 46px !important; }
+  #lw h2,
+  #lw h2[style*="font-size:52px"] { font-size: 36px !important; }
+  #lw .legal h1 { font-size: 40px !important; }
+  #lw .cta2 h2 { font-size: 48px !important; }
+  #lw .pr b { font-size: 72px !important; }
 }
