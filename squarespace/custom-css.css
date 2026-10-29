@@ -645,6 +645,91 @@ body:has(#lw) #lw {
 #lw .legal ol { max-width: 68ch !important; }
 #lw .wrap { grid-template-columns: repeat(12, minmax(0, 1fr)); }
 
+/* Squarespace's Fluid Engine sets --grid-column-start/end, --column-count,
+   and --cell-max-width on .fe-block / .fluid-engine. Those variables inherit
+   into #lw. Combined with a template rule that resets grid-column-end on
+   classed divs, every child keeps a single track (~1/12). Inline
+   grid-column styles still win, which is why the calculator's left text
+   stays wide while .calc, .card, .loc, and the nav button do not.
+   Re-state our spans with enough specificity to beat that, and clear the
+   inherited variables inside #lw. */
+body:has(#lw) #lw {
+  --column-count: initial;
+  --fluid-engine-column-count: initial;
+  --grid-gutter: initial;
+  --half-grid-gutter: initial;
+  --column-gap: initial;
+  --row-gap: initial;
+  --grid-gap: initial;
+  --inset-padding: initial;
+  --cell-max-width: initial;
+  --row-height: initial;
+  --row-size: initial;
+  --grid-row-count: initial;
+  --grid-row-start: initial;
+  --grid-column-start: initial;
+  --grid-row-end: initial;
+  --grid-column-end: initial;
+  --sqs-site-gutter: initial;
+  --sqs-mobile-site-gutter: initial;
+}
+body:has(#lw) #lw nav { grid-template-columns: repeat(12, minmax(0, 1fr)) !important; }
+body:has(#lw) #lw nav .logo { grid-column: span 3 !important; }
+body:has(#lw) #lw nav .links { grid-column: 5 / 11 !important; }
+body:has(#lw) #lw nav .cta { grid-column: 11 / 13 !important; }
+body:has(#lw) #lw .wrap { grid-template-columns: repeat(12, minmax(0, 1fr)) !important; }
+body:has(#lw) #lw .sh,
+body:has(#lw) #lw .svc,
+body:has(#lw) #lw .stack,
+body:has(#lw) #lw .plans,
+body:has(#lw) #lw .exit,
+body:has(#lw) #lw .faq { grid-column: 1 / 13 !important; }
+body:has(#lw) #lw .h4 { grid-template-columns: repeat(12, minmax(0, 1fr)) !important; }
+body:has(#lw) #lw .t { grid-column: 1 / 8 !important; }
+body:has(#lw) #lw .card { grid-column: 9 / 13 !important; }
+body:has(#lw) #lw .calc { grid-column: 6 / 13 !important; }
+body:has(#lw) #lw .plans { grid-template-columns: 1fr 1fr !important; }
+body:has(#lw) #lw .svc { grid-template-columns: repeat(4, minmax(0, 1fr)) !important; }
+body:has(#lw) #lw .stack { grid-template-columns: repeat(4, minmax(0, 1fr)) !important; }
+body:has(#lw) #lw .faq { grid-template-columns: repeat(3, minmax(0, 1fr)) !important; }
+body:has(#lw) #lw .seg { grid-template-columns: 1fr 1fr !important; }
+body:has(#lw) #lw .au { grid-template-columns: repeat(12, minmax(0, 1fr)) !important; }
+body:has(#lw) #lw .au .l { grid-column: 1 / 8 !important; }
+body:has(#lw) #lw .au .r { grid-column: 8 / 13 !important; }
+body:has(#lw) #lw .loc { grid-column: 1 / 7 !important; }
+body:has(#lw) #lw .loc2 { grid-column: 8 / 13 !important; }
+body:has(#lw) #lw .bf { grid-column: 4 / 13 !important; }
+body:has(#lw) #lw .cta2 { grid-template-columns: repeat(12, minmax(0, 1fr)) !important; }
+body:has(#lw) #lw .cta2 h2 { grid-column: 1 / 9 !important; }
+body:has(#lw) #lw .cta2 .s { grid-column: 9 / 13 !important; }
+body:has(#lw) #lw footer { grid-template-columns: repeat(12, minmax(0, 1fr)) !important; }
+body:has(#lw) #lw footer .logo { grid-column: 1 / 4 !important; }
+body:has(#lw) #lw footer > div { grid-column: span 2 !important; }
+body:has(#lw) #lw footer > div[style*="grid-column:7"] { grid-column: 7 / 9 !important; }
+body:has(#lw) #lw footer > div[style*="grid-column:9"] { grid-column: 9 / 13 !important; }
+body:has(#lw) #lw .legal .doc { grid-column: 1 / 10 !important; }
+/* Squarespace .row / .col and [class*="col"] percentage widths must not
+   latch onto anything inside the design. These selectors only match our
+   tree; the Fluid Engine wrappers stay on the :has(#lw) rules above. */
+body:has(#lw) #lw .row,
+body:has(#lw) #lw .col,
+body:has(#lw) #lw [class*="col"] {
+  float: none !important;
+  width: auto !important;
+}
+
+@media (max-width: 1100px) {
+  body:has(#lw) #lw .plans,
+  body:has(#lw) #lw .svc,
+  body:has(#lw) #lw .stack,
+  body:has(#lw) #lw .faq {
+    grid-template-columns: 1fr !important;
+  }
+  body:has(#lw) #lw .times {
+    grid-template-columns: 1fr !important;
+  }
+}
+
 /* Template buttons and headings should not restyle the design. */
 #lw .seg button {
   font-family: "Archivo", sans-serif !important;
