@@ -1,0 +1,4 @@
+// Bayer 8x8 ordered dither of a shape function f(x,y)->0..1
+const B=[0,32,8,40,2,34,10,42,48,16,56,24,50,18,58,26,12,44,4,36,14,46,6,38,60,28,52,20,62,30,54,22,3,35,11,43,1,33,9,41,51,19,59,27,49,17,57,25,15,47,7,39,13,45,5,37,63,31,55,23,61,29,53,21];
+function dither(c,f,px=3,col=[255,210,31],bg=null){const w=Math.ceil(c.clientWidth/px),h=Math.ceil(c.clientHeight/px);c.width=w;c.height=h;const x=c.getContext('2d'),d=x.createImageData(w,h);
+for(let j=0;j<h;j++)for(let i=0;i<w;i++){const v=f(i/w,j/h,w/h),t=(B[(j%8)*8+i%8]+.5)/64,k=(j*w+i)*4;if(v>t){d.data[k]=col[0];d.data[k+1]=col[1];d.data[k+2]=col[2];d.data[k+3]=255}else if(bg){d.data[k]=bg[0];d.data[k+1]=bg[1];d.data[k+2]=bg[2];d.data[k+3]=255}}x.putImageData(d,0,0)}
