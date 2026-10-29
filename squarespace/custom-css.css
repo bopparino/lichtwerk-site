@@ -415,7 +415,6 @@ body:has(#lw) .section-border {
    grid cell with inline column spans, gutter variables, and overflow hidden.
    Those cells were clipping the page into a narrow strip. */
 body:has(#lw) .page-section:has(#lw),
-body:has(#lw) .page-section:has(#lw) > .section-border,
 body:has(#lw) .page-section:has(#lw) > .content-wrapper,
 body:has(#lw) .page-section:has(#lw) .content-wrapper,
 body:has(#lw) .page-section:has(#lw) .content,
@@ -446,6 +445,45 @@ body:has(#lw) .col:has(#lw) {
   top: auto !important;
   transform: none !important;
   inset: auto !important;
+}
+
+/* full-bleed-section is a flex row. section-border / section-background were
+   in that row at width:100%, so each took half the section and #lw started
+   at the midpoint. Pull both layers out of flow. Do not set them back to
+   static or relative. */
+body:has(#lw) .page-section:has(#lw) {
+  position: relative !important;
+}
+body:has(#lw) .page-section:has(#lw) > .section-border,
+body:has(#lw) .page-section:has(#lw) > .section-background,
+body:has(#lw) .page-section:has(#lw) .section-border,
+body:has(#lw) .page-section:has(#lw) .section-background {
+  position: absolute !important;
+  inset: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  max-width: none !important;
+  margin: 0 !important;
+  flex: none !important;
+  transform: none !important;
+  float: none !important;
+}
+
+body:has(#lw) .page-section:has(#lw) > .content-wrapper {
+  position: relative !important;
+  inset: auto !important;
+  left: auto !important;
+  right: auto !important;
+  top: auto !important;
+  bottom: auto !important;
+  transform: none !important;
+  float: none !important;
+  flex: 1 1 100% !important;
+  width: 100% !important;
+  max-width: none !important;
+  min-width: 0 !important;
+  margin: 0 !important;
+  align-self: stretch !important;
 }
 
 body:has(#lw) .fluid-engine:has(#lw) {
