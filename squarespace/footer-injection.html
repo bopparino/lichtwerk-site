@@ -104,3 +104,190 @@
   tick();
 })();
 </script>
+
+<script>
+/* Phone menu. Runs on every page. Guarded so a code block and the footer can both include it. */
+(function () {
+  if (window.__lwNav) return;
+  window.__lwNav = true;
+
+  var overlay = null;
+  var openBtn = null;
+  var lockedY = 0;
+  var closeTimer = 0;
+
+  function reducedMotion() {
+    return window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  }
+  function mobile() {
+    return window.matchMedia("(max-width: 1100px)").matches;
+  }
+  function park() {
+    var fresh = document.getElementById("lw-nav");
+    if (!fresh) return null;
+    if (overlay && overlay !== fresh && overlay.parentNode) overlay.parentNode.removeChild(overlay);
+    overlay = fresh;
+    if (overlay.parentNode !== document.body) document.body.appendChild(overlay);
+    return overlay;
+  }
+  function setExpanded(on) {
+    var buttons = document.querySelectorAll(".nav-toggle");
+    for (var i = 0; i < buttons.length; i++) {
+      buttons[i].setAttribute("aria-expanded", on ? "true" : "false");
+      buttons[i].setAttribute("aria-label", on ? "Close menu" : "Open menu");
+    }
+  }
+  function setInert(on) {
+    var kids = document.body.children;
+    for (var i = 0; i < kids.length; i++) {
+      var el = kids[i];
+      if (overlay && el === overlay) continue;
+      if (on) {
+        if (!el.hasAttribute("data-lw-inert")) el.setAttribute("data-lw-inert", el.hasAttribute("inert") ? "1" : "0");
+        el.inert = true;
+      } else if (el.getAttribute("data-lw-inert") === "0") {
+        el.inert = false;
+        el.removeAttribute("data-lw-inert");
+      } else if (el.hasAttribute("data-lw-inert")) {
+        el.removeAttribute("data-lw-inert");
+      }
+    }
+  }
+  function lockScroll() {
+    lockedY = window.scrollY || document.documentElement.scrollTop || 0;
+    document.documentElement.classList.add("lw-nav-lock");
+    document.body.style.top = "-" + lockedY + "px";
+  }
+  function unlockScroll() {
+    if (!document.documentElement.classList.contains("lw-nav-lock")) return;
+    document.documentElement.classList.remove("lw-nav-lock");
+    document.body.style.top = "";
+    window.scrollTo(0, lockedY);
+  }
+  function finishClose(el) {
+    if (!el || el.classList.contains("is-open")) return;
+    el.hidden = true;
+  }
+  function openMenu(btn) {
+    if (!mobile()) return;
+    park();
+    if (!overlay) return;
+    clearTimeout(closeTimer);
+    openBtn = btn || document.querySelector("#lw .nav-toggle");
+    overlay.hidden = false;
+    overlay.setAttribute("aria-hidden", "false");
+    void overlay.offsetWidth;
+    overlay.classList.add("is-open");
+    setExpanded(true);
+    lockScroll();
+    setInert(true);
+    var closeBtn = overlay.querySelector(".nav-close");
+    if (closeBtn) closeBtn.focus();
+  }
+  function closeMenu(restore) {
+    if (!overlay || !overlay.classList.contains("is-open")) return;
+    var el = overlay;
+    el.classList.remove("is-open");
+    el.setAttribute("aria-hidden", "true");
+    setExpanded(false);
+    setInert(false);
+    unlockScroll();
+    clearTimeout(closeTimer);
+    if (reducedMotion()) finishClose(el);
+    else {
+      closeTimer = setTimeout(function () { finishClose(el); }, 320);
+      el.addEventListener("transitionend", function onEnd(ev) {
+        if (ev.target !== el || ev.propertyName !== "opacity") return;
+        el.removeEventListener("transitionend", onEnd);
+        clearTimeout(closeTimer);
+        finishClose(el);
+      });
+    }
+    if (restore && openBtn && typeof openBtn.focus === "function") openBtn.focus();
+  }
+  function focusable() {
+    if (!overlay) return [];
+    var nodes = overlay.querySelectorAll("a[href], button:not([disabled])");
+    var list = [];
+    for (var i = 0; i < nodes.length; i++) {
+      var r = nodes[i].getClientRects();
+      if (r && r.length) list.push(nodes[i]);
+    }
+    return list;
+  }
+
+  document.addEventListener("click", function (e) {
+    var t = e.target;
+    if (!t || !t.closest) return;
+    var toggle = t.closest(".nav-toggle");
+    if (toggle) {
+      e.preventDefault();
+      if (overlay && overlay.classList.contains("is-open")) closeMenu(true);
+      else openMenu(toggle);
+      return;
+    }
+    if (!overlay || !overlay.classList.contains("is-open")) return;
+    if (t.closest(".nav-close")) {
+      e.preventDefault();
+      closeMenu(true);
+      return;
+    }
+    if (t.closest("#lw-nav a")) closeMenu(false);
+  });
+
+  document.addEventListener("keydown", function (e) {
+    if (!overlay || !overlay.classList.contains("is-open")) return;
+    if (e.key === "Escape" || e.key === "Esc") {
+      e.preventDefault();
+      closeMenu(true);
+      return;
+    }
+    if (e.key !== "Tab") return;
+    var list = focusable();
+    if (!list.length) return;
+    var first = list[0];
+    var last = list[list.length - 1];
+    if (e.shiftKey && document.activeElement === first) {
+      e.preventDefault();
+      last.focus();
+    } else if (!e.shiftKey && document.activeElement === last) {
+      e.preventDefault();
+      first.focus();
+    }
+  });
+
+  document.addEventListener("focusin", function (e) {
+    if (!overlay || !overlay.classList.contains("is-open")) return;
+    if (overlay.contains(e.target)) return;
+    var list = focusable();
+    if (list.length) list[0].focus();
+  });
+
+  window.addEventListener("resize", function () {
+    if (!mobile() && overlay && overlay.classList.contains("is-open")) closeMenu(false);
+  });
+
+  if (window.MutationObserver && document.body) {
+    var scheduled = false;
+    new MutationObserver(function () {
+      if (scheduled) return;
+      scheduled = true;
+      requestAnimationFrame(function () {
+        scheduled = false;
+        var fresh = document.getElementById("lw-nav");
+        if (fresh && overlay && fresh !== overlay && overlay.classList.contains("is-open")) {
+          overlay.classList.remove("is-open");
+          setExpanded(false);
+          setInert(false);
+          unlockScroll();
+          overlay = null;
+        }
+        park();
+      });
+    }).observe(document.body, { childList: true, subtree: true });
+  }
+
+  if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", park);
+  else park();
+})();
+</script>

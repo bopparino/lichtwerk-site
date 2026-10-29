@@ -14,7 +14,12 @@
 </head>
 <body>
 <div id="lw" class="lw">
-<nav><a class="logo" href="/">lichtwerk<b>.</b></a><div class="links mono"><a href="/#services">Services</a><a href="/#pricing">Pricing</a><a href="/#assessment">Assessment</a><a href="/#audits">Audits</a><a href="/#about">About</a></div><a class="cta mono" href="tel:+12402306468">Book Assessment →</a></nav>
+<nav><a class="logo" href="/">lichtwerk<b>.</b></a><div class="links mono"><a href="/#services">Services</a><a href="/#pricing">Pricing</a><a href="/#assessment">Assessment</a><a href="/#audits">Audits</a><a href="/#about">About</a></div><a class="cta mono" href="tel:+12402306468">Book Assessment →</a><button type="button" class="nav-toggle" aria-expanded="false" aria-controls="lw-nav" aria-label="Open menu"><span aria-hidden="true"></span><span aria-hidden="true"></span><span aria-hidden="true"></span></button></nav>
+<div id="lw-nav" class="lw-nav-overlay" hidden role="dialog" aria-modal="true" aria-hidden="true" aria-label="Menu">
+  <div class="nav-overlay-top"><a class="logo" href="/">lichtwerk<b>.</b></a><button type="button" class="nav-close" aria-label="Close menu">Close</button></div>
+  <div class="nav-overlay-links" role="navigation" aria-label="Sections"><a href="/#services"><i>01</i>Services</a><a href="/#pricing"><i>02</i>Pricing</a><a href="/#assessment"><i>03</i>Assessment</a><a href="/#audits"><i>04</i>Audits</a><a href="/#about"><i>05</i>About</a></div>
+  <a class="btn y nav-overlay-book" href="tel:+12402306468">Book Assessment →</a>
+</div>
 <section class="h4"><canvas class="dither" id="c4" aria-hidden="true"></canvas>
 <div class="tag" style="position:absolute;top:40px;left:40px;z-index:2"><i>■</i> Managed IT · Southern Maryland</div>
 <div class="t"><h1>We keep<br>the <span>lights</span> on.</h1>
@@ -65,7 +70,7 @@
 </div></div></section>
 
 <section class="assess" id="assessment"><div class="wrap" style="padding:44px 40px">
-<div style="grid-column:1/9"><div class="tag" style="color:var(--ink)"><i style="color:var(--ink)">■</i> Start here</div><h3>Book a $175 on-site assessment <span style="font-size:20px">+ tax</span>.</h3><p>Three hours at your office. We look at your computers, network, backups and accounts, then tell you what we found in plain English. The $175 is credited to your first month if you sign up. The price goes to $250 on January 1, 2027.</p><p style="font-size:13px;margin-top:10px">When you book, please don't include patient or health information.</p></div>
+<div style="grid-column:1/9"><div class="tag" style="color:var(--ink)"><i style="color:var(--ink)">■</i> Start here</div><h3>Book a $175 on-site <span class="tax">assessment <span style="font-size:20px">+ tax</span>.</span></h3><p>Three hours at your office. We look at your computers, network, backups and accounts, then tell you what we found in plain English. The $175 is credited to your first month if you sign up. The price goes to $250 on January 1, 2027.</p><p style="font-size:13px;margin-top:10px">When you book, please don't include patient or health information.</p></div>
 <div class="assess-cta" style="grid-column:10/13;align-self:center;text-align:right"><a class="btn k" href="tel:+12402306468">Book an assessment ($175 + tax) →</a></div></div></section>
 
 <section><div class="wrap" style="padding:60px 40px">
@@ -183,5 +188,191 @@
 })();
 </script>
 
+<script>
+/* Phone menu. Runs on every page. Guarded so a code block and the footer can both include it. */
+(function () {
+  if (window.__lwNav) return;
+  window.__lwNav = true;
+
+  var overlay = null;
+  var openBtn = null;
+  var lockedY = 0;
+  var closeTimer = 0;
+
+  function reducedMotion() {
+    return window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  }
+  function mobile() {
+    return window.matchMedia("(max-width: 1100px)").matches;
+  }
+  function park() {
+    var fresh = document.getElementById("lw-nav");
+    if (!fresh) return null;
+    if (overlay && overlay !== fresh && overlay.parentNode) overlay.parentNode.removeChild(overlay);
+    overlay = fresh;
+    if (overlay.parentNode !== document.body) document.body.appendChild(overlay);
+    return overlay;
+  }
+  function setExpanded(on) {
+    var buttons = document.querySelectorAll(".nav-toggle");
+    for (var i = 0; i < buttons.length; i++) {
+      buttons[i].setAttribute("aria-expanded", on ? "true" : "false");
+      buttons[i].setAttribute("aria-label", on ? "Close menu" : "Open menu");
+    }
+  }
+  function setInert(on) {
+    var kids = document.body.children;
+    for (var i = 0; i < kids.length; i++) {
+      var el = kids[i];
+      if (overlay && el === overlay) continue;
+      if (on) {
+        if (!el.hasAttribute("data-lw-inert")) el.setAttribute("data-lw-inert", el.hasAttribute("inert") ? "1" : "0");
+        el.inert = true;
+      } else if (el.getAttribute("data-lw-inert") === "0") {
+        el.inert = false;
+        el.removeAttribute("data-lw-inert");
+      } else if (el.hasAttribute("data-lw-inert")) {
+        el.removeAttribute("data-lw-inert");
+      }
+    }
+  }
+  function lockScroll() {
+    lockedY = window.scrollY || document.documentElement.scrollTop || 0;
+    document.documentElement.classList.add("lw-nav-lock");
+    document.body.style.top = "-" + lockedY + "px";
+  }
+  function unlockScroll() {
+    if (!document.documentElement.classList.contains("lw-nav-lock")) return;
+    document.documentElement.classList.remove("lw-nav-lock");
+    document.body.style.top = "";
+    window.scrollTo(0, lockedY);
+  }
+  function finishClose(el) {
+    if (!el || el.classList.contains("is-open")) return;
+    el.hidden = true;
+  }
+  function openMenu(btn) {
+    if (!mobile()) return;
+    park();
+    if (!overlay) return;
+    clearTimeout(closeTimer);
+    openBtn = btn || document.querySelector("#lw .nav-toggle");
+    overlay.hidden = false;
+    overlay.setAttribute("aria-hidden", "false");
+    void overlay.offsetWidth;
+    overlay.classList.add("is-open");
+    setExpanded(true);
+    lockScroll();
+    setInert(true);
+    var closeBtn = overlay.querySelector(".nav-close");
+    if (closeBtn) closeBtn.focus();
+  }
+  function closeMenu(restore) {
+    if (!overlay || !overlay.classList.contains("is-open")) return;
+    var el = overlay;
+    el.classList.remove("is-open");
+    el.setAttribute("aria-hidden", "true");
+    setExpanded(false);
+    setInert(false);
+    unlockScroll();
+    clearTimeout(closeTimer);
+    if (reducedMotion()) finishClose(el);
+    else {
+      closeTimer = setTimeout(function () { finishClose(el); }, 320);
+      el.addEventListener("transitionend", function onEnd(ev) {
+        if (ev.target !== el || ev.propertyName !== "opacity") return;
+        el.removeEventListener("transitionend", onEnd);
+        clearTimeout(closeTimer);
+        finishClose(el);
+      });
+    }
+    if (restore && openBtn && typeof openBtn.focus === "function") openBtn.focus();
+  }
+  function focusable() {
+    if (!overlay) return [];
+    var nodes = overlay.querySelectorAll("a[href], button:not([disabled])");
+    var list = [];
+    for (var i = 0; i < nodes.length; i++) {
+      var r = nodes[i].getClientRects();
+      if (r && r.length) list.push(nodes[i]);
+    }
+    return list;
+  }
+
+  document.addEventListener("click", function (e) {
+    var t = e.target;
+    if (!t || !t.closest) return;
+    var toggle = t.closest(".nav-toggle");
+    if (toggle) {
+      e.preventDefault();
+      if (overlay && overlay.classList.contains("is-open")) closeMenu(true);
+      else openMenu(toggle);
+      return;
+    }
+    if (!overlay || !overlay.classList.contains("is-open")) return;
+    if (t.closest(".nav-close")) {
+      e.preventDefault();
+      closeMenu(true);
+      return;
+    }
+    if (t.closest("#lw-nav a")) closeMenu(false);
+  });
+
+  document.addEventListener("keydown", function (e) {
+    if (!overlay || !overlay.classList.contains("is-open")) return;
+    if (e.key === "Escape" || e.key === "Esc") {
+      e.preventDefault();
+      closeMenu(true);
+      return;
+    }
+    if (e.key !== "Tab") return;
+    var list = focusable();
+    if (!list.length) return;
+    var first = list[0];
+    var last = list[list.length - 1];
+    if (e.shiftKey && document.activeElement === first) {
+      e.preventDefault();
+      last.focus();
+    } else if (!e.shiftKey && document.activeElement === last) {
+      e.preventDefault();
+      first.focus();
+    }
+  });
+
+  document.addEventListener("focusin", function (e) {
+    if (!overlay || !overlay.classList.contains("is-open")) return;
+    if (overlay.contains(e.target)) return;
+    var list = focusable();
+    if (list.length) list[0].focus();
+  });
+
+  window.addEventListener("resize", function () {
+    if (!mobile() && overlay && overlay.classList.contains("is-open")) closeMenu(false);
+  });
+
+  if (window.MutationObserver && document.body) {
+    var scheduled = false;
+    new MutationObserver(function () {
+      if (scheduled) return;
+      scheduled = true;
+      requestAnimationFrame(function () {
+        scheduled = false;
+        var fresh = document.getElementById("lw-nav");
+        if (fresh && overlay && fresh !== overlay && overlay.classList.contains("is-open")) {
+          overlay.classList.remove("is-open");
+          setExpanded(false);
+          setInert(false);
+          unlockScroll();
+          overlay = null;
+        }
+        park();
+      });
+    }).observe(document.body, { childList: true, subtree: true });
+  }
+
+  if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", park);
+  else park();
+})();
+</script>
 </body>
 </html>

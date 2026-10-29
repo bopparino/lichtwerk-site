@@ -370,3 +370,314 @@
   }
   #lw .pr b { font-size: 72px !important; }
 }
+
+/* Phone layout, at and below the 1100px stacking breakpoint.
+   Desktop (min-width: 1101px) is unchanged: the menu button and overlay
+   stay out of the flex row, and the hero canvas stays absolutely filled.
+   These rules sit after the font-size locks so the phone headline wins. */
+
+#lw .nav-toggle {
+  display: none;
+  width: 44px;
+  height: 44px;
+  flex: 0 0 44px;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 5px;
+  padding: 0 !important;
+  margin: 0 !important;
+  border: 1px solid var(--line) !important;
+  background: transparent !important;
+  color: var(--paper) !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  cursor: pointer;
+  appearance: none;
+}
+#lw .nav-toggle span {
+  display: block;
+  width: 18px;
+  height: 2px;
+  background: currentColor;
+  pointer-events: none;
+}
+
+#lw .assess h3 .tax {
+  white-space: nowrap;
+}
+
+.lw-nav-overlay {
+  --ink: #0b0b0a;
+  --paper: #efeadf;
+  --sig: #ffd21f;
+  --line: #2a2925;
+  position: fixed;
+  inset: 0;
+  z-index: 10000;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  min-height: 100dvh;
+  margin: 0;
+  padding: 18px 22px 22px;
+  box-sizing: border-box;
+  background: var(--ink);
+  color: var(--paper);
+  overflow-x: hidden;
+  overflow-y: auto;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-12px);
+  pointer-events: none;
+  transition: opacity 220ms ease, transform 220ms ease, visibility 0s linear 220ms;
+}
+.lw-nav-overlay.is-open {
+  opacity: 1;
+  visibility: visible;
+  transform: none;
+  pointer-events: auto;
+  transition: opacity 220ms ease, transform 220ms ease, visibility 0s linear 0s;
+}
+.lw-nav-overlay[hidden] {
+  display: none !important;
+}
+.lw-nav-overlay,
+.lw-nav-overlay * {
+  box-sizing: border-box;
+}
+.lw-nav-overlay .nav-overlay-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--line);
+  flex: 0 0 auto;
+}
+.lw-nav-overlay .logo {
+  font-family: "Archivo Black", sans-serif !important;
+  font-size: 22px !important;
+  letter-spacing: -0.04em;
+  line-height: 1;
+  color: var(--paper) !important;
+  text-decoration: none !important;
+}
+.lw-nav-overlay .logo b { color: var(--sig) !important; }
+.lw-nav-overlay .nav-close {
+  appearance: none;
+  margin: 0 !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  background: var(--sig) !important;
+  color: var(--ink) !important;
+  font-family: "Geist Mono", ui-monospace, monospace !important;
+  font-size: 13px !important;
+  font-weight: 500 !important;
+  letter-spacing: 0.06em;
+  text-transform: uppercase !important;
+  line-height: 1 !important;
+  padding: 14px 16px !important;
+  cursor: pointer;
+}
+.lw-nav-overlay .nav-overlay-links {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;
+  justify-content: center;
+  border-bottom: 1px solid var(--line);
+}
+.lw-nav-overlay .nav-overlay-links a {
+  display: flex;
+  align-items: baseline;
+  gap: 18px;
+  padding: 12px 0;
+  border-top: 1px solid var(--line);
+  color: var(--paper) !important;
+  text-decoration: none !important;
+  font-family: "Archivo Black", sans-serif !important;
+  font-size: clamp(40px, 11vw, 72px) !important;
+  letter-spacing: -0.045em;
+  line-height: 0.9;
+  text-transform: none !important;
+}
+.lw-nav-overlay .nav-overlay-links a:hover,
+.lw-nav-overlay .nav-overlay-links a:focus-visible {
+  color: var(--sig) !important;
+}
+.lw-nav-overlay .nav-overlay-links i {
+  flex: 0 0 2.4em;
+  font-style: normal;
+  font-family: "Geist Mono", ui-monospace, monospace !important;
+  font-size: 14px !important;
+  letter-spacing: 0.04em;
+  color: var(--sig) !important;
+}
+.lw-nav-overlay .nav-overlay-book {
+  flex: 0 0 auto;
+  display: block;
+  margin-top: 18px !important;
+  padding: 18px 22px !important;
+  background: var(--sig) !important;
+  color: var(--ink) !important;
+  border: 1px solid var(--sig) !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  text-align: center;
+  text-decoration: none !important;
+  font-family: "Archivo", sans-serif !important;
+  font-weight: 700 !important;
+  font-size: 16px !important;
+  line-height: 1.2 !important;
+}
+.lw-nav-overlay a:focus-visible,
+.lw-nav-overlay button:focus-visible {
+  outline: 2px solid var(--sig);
+  outline-offset: 3px;
+}
+.lw-nav-overlay .nav-close:focus-visible,
+.lw-nav-overlay .nav-overlay-book:focus-visible {
+  outline-color: var(--ink);
+}
+
+html.lw-nav-lock,
+html.lw-nav-lock body {
+  overflow: hidden !important;
+}
+html.lw-nav-lock body {
+  position: fixed !important;
+  width: 100% !important;
+  left: 0;
+  right: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .lw-nav-overlay {
+    transition: none !important;
+    transform: none !important;
+  }
+}
+
+@media (max-width: 1100px) {
+  #lw nav {
+    display: flex !important;
+    flex-direction: row !important;
+    flex-wrap: nowrap !important;
+    align-items: center !important;
+    justify-content: flex-start !important;
+    gap: 10px !important;
+    position: sticky;
+    top: 0;
+    z-index: 40;
+    background: var(--ink) !important;
+    padding: 12px 16px !important;
+  }
+  #lw nav .logo {
+    flex: 0 0 auto !important;
+    width: auto !important;
+    font-size: 20px !important;
+  }
+  #lw nav .links {
+    display: none !important;
+  }
+  #lw nav .cta {
+    margin-left: auto !important;
+    flex: 0 0 auto !important;
+    width: auto !important;
+    white-space: nowrap !important;
+    padding: 10px 12px !important;
+    font-size: 12px !important;
+  }
+  #lw nav .nav-toggle {
+    display: inline-flex !important;
+  }
+  #lw .h4 {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: stretch !important;
+    height: auto !important;
+    min-height: 0 !important;
+    gap: 0 !important;
+    padding: 0 0 32px !important;
+    background: var(--ink) !important;
+    overflow: hidden;
+  }
+  #lw .h4 > canvas {
+    position: relative !important;
+    inset: auto !important;
+    top: auto !important;
+    right: auto !important;
+    bottom: auto !important;
+    left: auto !important;
+    width: 100% !important;
+    height: clamp(148px, 26vw, 220px) !important;
+    flex: 0 0 auto !important;
+    border-bottom: 1px solid var(--line);
+  }
+  #lw .h4 > .tag {
+    position: static !important;
+    top: auto !important;
+    left: auto !important;
+    margin: 22px 22px 0 !important;
+    background: transparent !important;
+  }
+  #lw .h4 .t {
+    padding: 6px 22px 0 !important;
+    width: 100% !important;
+  }
+  #lw .h4 h1 {
+    font-size: 80px !important;
+    letter-spacing: -0.06em !important;
+    line-height: 0.82 !important;
+    overflow-wrap: normal !important;
+    word-break: normal !important;
+  }
+  #lw .h4 .t p {
+    margin: 16px 0 18px !important;
+  }
+  #lw .h4 .card {
+    margin: 8px 22px 0 !important;
+    width: auto !important;
+  }
+}
+
+@media (max-width: 640px) {
+  #lw nav {
+    padding: 10px 12px !important;
+    gap: 8px !important;
+  }
+  #lw nav .logo { font-size: 18px !important; }
+  #lw nav .cta {
+    padding: 8px 8px !important;
+    font-size: 11px !important;
+  }
+  #lw .h4 > .tag { margin: 18px 18px 0 !important; }
+  #lw .h4 .t { padding: 4px 18px 0 !important; }
+  #lw .h4 h1 {
+    font-size: 54px !important;
+    letter-spacing: -0.062em !important;
+    line-height: 0.8 !important;
+  }
+  #lw .h4 .t p { margin: 12px 0 16px !important; }
+  #lw .h4 .card { margin: 6px 18px 0 !important; }
+  #lw .h4 .btn.y {
+    padding: 18px 16px !important;
+    font-size: 16px !important;
+  }
+  #lw .assess h3 {
+    font-size: 32px !important;
+    letter-spacing: -0.05em !important;
+    line-height: 1.08 !important;
+    overflow-wrap: normal !important;
+    word-break: normal !important;
+  }
+}
+
+@media (min-width: 1101px) {
+  #lw .nav-toggle,
+  .lw-nav-overlay {
+    display: none !important;
+  }
+}
