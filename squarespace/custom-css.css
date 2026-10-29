@@ -654,24 +654,23 @@ body:has(#lw) #lw {
    Re-state our spans with enough specificity to beat that, and clear the
    inherited variables inside #lw. */
 body:has(#lw) #lw {
-  --column-count: initial;
-  --fluid-engine-column-count: initial;
-  --grid-gutter: initial;
-  --half-grid-gutter: initial;
-  --column-gap: initial;
-  --row-gap: initial;
-  --grid-gap: initial;
-  --inset-padding: initial;
-  --cell-max-width: initial;
-  --row-height: initial;
-  --row-size: initial;
-  --grid-row-count: initial;
-  --grid-row-start: initial;
-  --grid-column-start: initial;
-  --grid-row-end: initial;
-  --grid-column-end: initial;
-  --sqs-site-gutter: initial;
-  --sqs-mobile-site-gutter: initial;
+  /* Concrete stand-ins. `initial` makes var(--cell-max-width) invalid and
+     drops any grid-template-columns that uses it, which collapses the
+     tracks into an implicit grid. 1fr tracks fill the row instead. */
+  --column-count: 12;
+  --fluid-engine-column-count: 12;
+  --grid-gutter: 0px;
+  --half-grid-gutter: 0px;
+  --column-gap: 0px;
+  --row-gap: 0px;
+  --grid-gap: 0px;
+  --inset-padding: 0px;
+  --cell-max-width: 1fr;
+  --row-height: auto;
+  --row-size: auto;
+  --grid-row-count: 1;
+  --sqs-site-gutter: 0px;
+  --sqs-mobile-site-gutter: 0px;
 }
 body:has(#lw) #lw nav { grid-template-columns: repeat(12, minmax(0, 1fr)) !important; }
 body:has(#lw) #lw nav .logo { grid-column: span 3 !important; }
@@ -712,8 +711,7 @@ body:has(#lw) #lw .legal .doc { grid-column: 1 / 10 !important; }
    latch onto anything inside the design. These selectors only match our
    tree; the Fluid Engine wrappers stay on the :has(#lw) rules above. */
 body:has(#lw) #lw .row,
-body:has(#lw) #lw .col,
-body:has(#lw) #lw [class*="col"] {
+body:has(#lw) #lw .col {
   float: none !important;
   width: auto !important;
 }
@@ -834,4 +832,128 @@ body:has(#lw) #lw [class*="col"] {
   #lw .legal h1 { font-size: 40px !important; }
   #lw .cta2 h2 { font-size: 48px !important; }
   #lw .pr b { font-size: 72px !important; }
+}
+
+/* Desktop layout does not depend on grid-column spans. A template rule can
+   reset grid-column-end after our shorthand, leaving every child in a
+   single ~1/12 track. Flex tracks keep the same proportions. */
+@media (min-width: 1101px) {
+  #lw,
+  #lw section,
+  #lw .h4,
+  #lw .wrap,
+  #lw nav,
+  #lw footer,
+  #lw .au,
+  #lw .cta2,
+  #lw .plans,
+  #lw .svc,
+  #lw .stack,
+  #lw .faq {
+    width: 100% !important;
+    max-width: none !important;
+    min-width: 0 !important;
+  }
+  #lw h1 { overflow-wrap: normal !important; word-break: normal !important; }
+  #lw nav {
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+  }
+  #lw nav .logo { flex: 0 0 auto !important; width: auto !important; }
+  #lw nav .links {
+    flex: 1 1 auto !important;
+    display: flex !important;
+    justify-content: center !important;
+    width: auto !important;
+  }
+  #lw nav .cta {
+    flex: 0 0 auto !important;
+    width: auto !important;
+    white-space: nowrap !important;
+  }
+  #lw .h4 {
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: flex-end !important;
+  }
+  #lw .t {
+    flex: 1 1 58% !important;
+    width: auto !important;
+    max-width: none !important;
+    min-width: 0 !important;
+  }
+  #lw .card {
+    flex: 0 1 34% !important;
+    width: auto !important;
+    min-width: 280px !important;
+    max-width: 460px !important;
+  }
+  #lw .wrap {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: stretch !important;
+  }
+  #lw .wrap > * {
+    width: 100% !important;
+    max-width: none !important;
+    min-width: 0 !important;
+    flex: 1 1 auto !important;
+  }
+  #lw .wrap:has(.calc),
+  #lw .wrap:has(.loc),
+  #lw .wrap:has(.bf),
+  #lw .wrap:has(.times),
+  #lw .assess > .wrap {
+    flex-direction: row !important;
+    align-items: center !important;
+  }
+  #lw .wrap:has(.calc) > div:first-child { flex: 1 1 36% !important; width: auto !important; }
+  #lw .calc { flex: 1 1 58% !important; width: auto !important; min-width: 420px !important; max-width: none !important; }
+  #lw .loc { flex: 1.15 1 52% !important; width: auto !important; }
+  #lw .loc2 { flex: 0.85 1 36% !important; width: auto !important; }
+  #lw .wrap:has(.bf) > div:first-child { flex: 0 0 22% !important; width: auto !important; }
+  #lw .bf { flex: 1 1 auto !important; width: auto !important; }
+  #lw .wrap:has(.times) > div:first-child { flex: 1 1 38% !important; width: auto !important; }
+  #lw .times {
+    flex: 1.3 1 56% !important;
+    width: auto !important;
+    display: grid !important;
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+  }
+  #lw .assess > .wrap > div:first-child { flex: 1 1 68% !important; width: auto !important; }
+  #lw .assess-cta { flex: 0 0 auto !important; width: auto !important; }
+  #lw .plans { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) !important; }
+  #lw .svc { grid-template-columns: repeat(4, minmax(0, 1fr)) !important; }
+  #lw .stack { grid-template-columns: repeat(4, minmax(0, 1fr)) !important; }
+  #lw .faq { grid-template-columns: repeat(3, minmax(0, 1fr)) !important; }
+  #lw .au {
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: stretch !important;
+  }
+  #lw .au .l { flex: 1 1 58% !important; width: auto !important; }
+  #lw .au .r { flex: 1 1 42% !important; width: auto !important; min-width: 280px !important; }
+  #lw .cta2 {
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: flex-end !important;
+  }
+  #lw .cta2 h2 { flex: 1 1 60% !important; width: auto !important; }
+  #lw .cta2 .s { flex: 0 1 34% !important; width: auto !important; }
+  #lw footer {
+    display: flex !important;
+    flex-direction: row !important;
+    flex-wrap: nowrap !important;
+    align-items: start !important;
+  }
+  #lw footer .logo { flex: 1.2 1 22% !important; width: auto !important; }
+  #lw footer > div { flex: 1 1 16% !important; width: auto !important; }
+  #lw footer > div:last-child { flex: 1.6 1 28% !important; }
+  #lw .legal .doc {
+    flex: 0 1 760px !important;
+    width: min(760px, 100%) !important;
+    max-width: 760px !important;
+  }
 }
