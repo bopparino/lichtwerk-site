@@ -1,0 +1,106 @@
+<!-- lichtwerk footer. Paste into Settings → Advanced → Code Injection → Footer. -->
+<script>
+/* Runs the homepage dither and seat calculator if the code block's script
+   did not (some editors strip script tags). Also redraws after Squarespace
+   swaps the page content. Safe to load on every page. */
+(function () {
+  var drawing = false;
+
+  function paint(el, fn, col) {
+    if (typeof dither !== "function") return;
+    if (!el || el.clientWidth < 2 || el.clientHeight < 2) return;
+    var w = Math.ceil(el.clientWidth / 4);
+    var h = Math.ceil(el.clientHeight / 4);
+    var key = w + "x" + h;
+    if (el.getAttribute("data-lw-size") === key) return;
+    if (col) dither(el, fn, 4, col);
+    else dither(el, fn, 4);
+    el.setAttribute("data-lw-size", key);
+  }
+
+  function draw() {
+    if (drawing) return;
+    drawing = true;
+    try {
+      paint(document.getElementById("c3"), (x,y)=>{const g=(Math.abs(((x*8)%1)-.5)<.03||Math.abs(((y*10)%1)-.5)<.03)?1:0;const d=Math.hypot(x-.55,(y-.35)*1.3);return Math.max(g*.5,Math.max(0,.9-d*1.6))}, [11,11,10]);
+      paint(document.getElementById("c4"), (x,y,a)=>{const cx=.66;const half=.03+y*.30;const d=Math.abs(x-cx);let v=d<half?(1-d/half)**.7*(1-y*.55):0;const lamp=Math.exp(-((x-cx)*(x-cx)*a*a+(y*y))*60);return Math.min(1,v*.75+lamp)}, null);
+      paint(document.getElementById("b1"), (x,y)=>{const w=.5+.5*Math.sin(x*14)*Math.cos(x*5);return (1-y)*(.45+.55*w)}, [255,210,31]);
+      paint(document.getElementById("b2"), (x,y)=>{const w=.5+.5*Math.sin(x*14+2)*Math.cos(x*5);return (1-y)*(.45+.55*w)}, [11,11,10]);
+    } finally {
+      drawing = false;
+    }
+  }
+
+  function bindCalc() {
+    var u = document.getElementById("u");
+    var un = document.getElementById("un");
+    var l1 = document.getElementById("l1");
+    var v1 = document.getElementById("v1");
+    var minrow = document.getElementById("minrow");
+    var v2 = document.getElementById("v2");
+    var v3 = document.getElementById("v3");
+    var v4 = document.getElementById("v4");
+    var v5 = document.getElementById("v5");
+    if (!u || !un || !l1 || !v1 || !minrow || !v2 || !v3 || !v4 || !v5) return;
+    if (u.dataset.lwBound === "1") return;
+    u.dataset.lwBound = "1";
+    let R=150;const f=n=>'$'+n.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2});
+    function calc(){const n=+u.value;un.textContent=n;const base=n*R,sub=Math.max(base,1000),tax=Math.round(sub*3)/100;
+    l1.textContent=n+(n==1?' user':' users')+' × $'+R;v1.textContent=f(base);minrow.style.display=base<1000?'flex':'none';v2.textContent='+ '+f(1000-base);
+    v3.textContent=f(tax);v4.textContent=f(sub+tax);const m=sub-175;v5.textContent=f(m+Math.round(m*3)/100)}
+    document.querySelectorAll('.seg button').forEach(b=>b.onclick=()=>{document.querySelectorAll('.seg button').forEach(x=>x.classList.remove('on'));b.classList.add('on');R=+b.dataset.r;calc()});
+    u.oninput=calc;calc();
+  }
+
+  function boot() {
+    draw();
+    bindCalc();
+  }
+
+  window.lwBoot = boot;
+
+  if (!window.__lwHooks) {
+    window.__lwHooks = true;
+    window.addEventListener("resize", function () { if (window.lwBoot) window.lwBoot(); });
+    window.addEventListener("load", function () { if (window.lwBoot) window.lwBoot(); });
+    if (document.fonts && document.fonts.ready) {
+      document.fonts.ready.then(function () { if (window.lwBoot) window.lwBoot(); });
+    }
+  }
+
+  if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", boot);
+  else boot();
+})();
+
+(function () {
+  if (window.__lwFooter) return;
+  window.__lwFooter = true;
+  function needsWork() {
+    var u = document.getElementById("u");
+    if (u && u.getAttribute("data-lw-bound") !== "1") return true;
+    var ids = ["c3", "c4", "b1", "b2"];
+    for (var i = 0; i < ids.length; i++) {
+      var el = document.getElementById(ids[i]);
+      if (!el || el.clientWidth < 2 || el.clientHeight < 2) continue;
+      var key = Math.ceil(el.clientWidth / 4) + "x" + Math.ceil(el.clientHeight / 4);
+      if (el.getAttribute("data-lw-size") !== key) return true;
+    }
+    return false;
+  }
+  function tick() {
+    if (!needsWork()) return;
+    if (typeof window.lwBoot === "function") window.lwBoot();
+  }
+  var target = document.getElementById("siteWrapper") || document.body;
+  var scheduled = false;
+  if (window.MutationObserver && target) {
+    new MutationObserver(function () {
+      if (scheduled) return;
+      scheduled = true;
+      requestAnimationFrame(function () { scheduled = false; tick(); });
+    }).observe(target, { childList: true, subtree: true });
+  }
+  window.addEventListener("load", tick);
+  tick();
+})();
+</script>

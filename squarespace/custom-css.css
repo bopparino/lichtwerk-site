@@ -1,0 +1,500 @@
+/* lichtwerk — paste this entire file into Squarespace Custom CSS.
+   Core plan or higher. Every rule is scoped under #lw except the
+   template-chrome block, which only matches pages that contain #lw. */
+#lw{--ink:#0b0b0a;--paper:#efeadf;--sig:#ffd21f;--mute:#8a867d;--line:#2a2925}
+#lw, #lw *{box-sizing:border-box;margin:0;padding:0}
+#lw{background:var(--ink);color:var(--paper);font-family:"Archivo",sans-serif;-webkit-font-smoothing:antialiased}
+#lw .mono{font-family:"Geist Mono",monospace;letter-spacing:.02em}
+#lw nav{display:grid;grid-template-columns:repeat(12,1fr);align-items:center;padding:22px 40px;border-bottom:1px solid var(--line);font-size:13px}
+#lw nav .logo{grid-column:span 3;font-family:"Archivo Black";font-size:22px;letter-spacing:-.04em}
+#lw nav .logo b{color:var(--sig)}
+#lw nav .links{grid-column:5/11;display:flex;gap:34px;color:var(--mute)}
+#lw nav .cta{grid-column:11/13;justify-self:end;background:var(--sig);color:var(--ink);padding:10px 16px;font-weight:700}
+#lw .tag{font-family:"Geist Mono";font-size:12px;color:var(--mute);text-transform:uppercase}
+#lw .tag i{color:var(--sig);font-style:normal}
+#lw canvas.dither{image-rendering:pixelated;display:block}
+#lw h1{font-family:"Archivo Black";letter-spacing:-.055em;line-height:.86}
+#lw .btn{display:inline-block;padding:16px 22px;font-weight:700;font-size:15px;border:1px solid var(--paper)}
+#lw .btn.y{background:var(--sig);color:var(--ink);border-color:var(--sig)}
+#lw section{border-bottom:1px solid var(--line);position:relative}
+#lw .wrap{padding:90px 40px;display:grid;grid-template-columns:repeat(12,1fr)}
+#lw .sh{grid-column:1/13;display:flex;justify-content:space-between;margin-bottom:40px}
+#lw h2{font-family:"Archivo Black";letter-spacing:-.05em;line-height:.9;font-size:72px}
+#lw .h{position:relative;height:731px;border-top:1px solid var(--line);display:grid;grid-template-columns:repeat(12,1fr);grid-template-rows:auto auto 1fr;padding:90px 40px 40px;overflow:hidden}
+#lw .h canvas{position:absolute;left:0;bottom:0;width:100%;height:24%}
+#lw .p{grid-column:span 5;position:relative;z-index:2;margin-top:18px;background:var(--ink);padding:0 18px 14px 0;align-self:start}
+#lw .p+.p{grid-column:7/12}
+#lw .p b{font-family:"Archivo Black";font-size:210px;letter-spacing:-.07em;line-height:.82;color:var(--sig);display:block}
+#lw .p+.p b{color:var(--paper)}
+#lw .p .tag{margin-top:14px;color:#bdb8ad}
+#lw .row{grid-column:1/13;display:grid;grid-template-columns:repeat(12,1fr);position:relative;z-index:2;align-self:end}
+#lw .row h1{grid-column:1/7;font-size:72px;background:var(--ink);padding:12px 16px 6px 0;align-self:end}
+#lw .box{background:var(--ink);padding:22px;font-size:17px;line-height:1.5;border:1px solid var(--line)}
+#lw .row .box{grid-column:8/13}
+#lw .box p{margin:0 0 18px}
+#lw .svc{grid-column:1/13;display:grid;grid-template-columns:repeat(4,1fr);border-top:1px solid var(--line)}
+#lw .svc div{padding:30px 28px 40px 0;border-right:1px solid var(--line);margin-right:28px}
+#lw .svc div:last-child{border:0}
+#lw .svc .n{font-family:"Geist Mono";color:var(--sig);font-size:13px}
+#lw .svc h3{font-family:"Archivo Black";font-size:28px;letter-spacing:-.03em;margin:40px 0 12px}
+#lw .svc p{color:var(--mute);font-size:15px;line-height:1.55}
+#lw .paper{background:var(--paper);color:var(--ink)}
+#lw .paper .tag{color:#6d695f}
+#lw .as{display:grid;grid-template-columns:repeat(12,1fr);min-height:620px}
+#lw .as .l{grid-column:1/7;padding:90px 40px}
+#lw .as .l p{font-size:19px;line-height:1.5;margin:28px 0;max-width:540px}
+#lw .as canvas{grid-column:7/13;width:100%;height:100%}
+#lw .steps{display:grid;grid-template-columns:repeat(3,1fr);border-top:2px solid var(--ink);margin-top:34px}
+#lw .steps div{padding:16px 16px 0 0;font-size:15px;line-height:1.45}
+#lw .steps b{font-family:"Archivo Black";font-size:34px;display:block;letter-spacing:-.03em}
+#lw .btn.k{border-color:var(--ink)}
+#lw .au{display:grid;grid-template-columns:repeat(12,1fr);min-height:600px}
+#lw .au .r{grid-column:8/13;position:relative;background:var(--sig)}
+#lw .au .r canvas{position:absolute;inset:0;width:100%;height:100%}
+#lw .au .l{grid-column:1/8;padding:90px 40px;border-right:1px solid var(--line)}
+#lw .au .l p{font-size:18px;line-height:1.5;max-width:560px;margin:26px 0}
+#lw .au h2 span{display:block;font-family:"Archivo";font-weight:300;color:var(--mute);letter-spacing:-.04em}
+#lw .stamp{position:absolute;left:28px;bottom:28px;background:var(--ink);padding:18px 20px;width:300px}
+#lw .stamp b{font-family:"Archivo Black";font-size:30px;letter-spacing:-.03em;display:block;margin-top:8px}
+#lw .stack{grid-column:1/13;display:grid;grid-template-columns:repeat(4,1fr);gap:0}
+#lw .stack div{border-left:2px solid var(--sig);padding:6px 20px 0;font-size:15px;line-height:1.5;color:var(--mute)}
+#lw .stack b{display:block;color:var(--paper);font-family:"Archivo Black";font-size:22px;margin-bottom:8px;letter-spacing:-.02em}
+#lw .loc{grid-column:1/7}
+#lw .loc p{font-size:19px;line-height:1.55;color:var(--paper);margin-top:26px;max-width:560px}
+#lw .loc2{grid-column:8/13;align-self:end}
+#lw .loc2 .tag{line-height:2}
+#lw .cta2{background:var(--sig);color:var(--ink);padding:110px 40px;display:grid;grid-template-columns:repeat(12,1fr);overflow:hidden}
+#lw .cta2 h2{grid-column:1/9;font-size:120px}
+#lw .cta2 .s{grid-column:9/13;align-self:end;font-size:18px;line-height:1.5}
+#lw .cta2 .btn{background:var(--ink);color:var(--sig);border-color:var(--ink);margin-top:20px}
+#lw footer{padding:40px;display:grid;grid-template-columns:repeat(12,1fr);font-size:13px;color:var(--mute)}
+#lw footer .logo{grid-column:1/4;font-family:"Archivo Black";font-size:40px;letter-spacing:-.05em;color:var(--paper)}
+#lw footer .logo b{color:var(--sig)}
+#lw footer div{grid-column:span 2;line-height:1.9}
+#lw .pl{max-width:380px;font-size:17px;line-height:1.5;color:var(--mute)}
+#lw .plans{grid-column:1/13;display:grid;grid-template-columns:1fr 1fr;gap:24px}
+#lw .plan{border:1px solid var(--line);position:relative;display:flex;flex-direction:column}
+#lw .plan .band{position:static;width:100%;height:64px}
+#lw .pin{padding:28px 30px 30px;display:flex;flex-direction:column;flex:1}
+#lw .pr{display:flex;align-items:end;gap:12px;margin:18px 0 24px}
+#lw .pr b{font-family:"Archivo Black";font-size:112px;letter-spacing:-.06em;line-height:.8;color:var(--sig)}
+#lw .pr span{font-family:"Geist Mono";font-size:13px;color:var(--mute);line-height:1.3;padding-bottom:4px}
+#lw .plan ul{list-style:none;border-top:1px solid var(--line)}
+#lw .plan li{padding:12px 0 12px 24px;border-bottom:1px solid var(--line);font-size:16px;position:relative}
+#lw .plan li:before{content:"";position:absolute;left:0;top:19px;width:9px;height:9px;background:var(--sig)}
+#lw .fine{margin-top:auto;padding-top:22px;font-family:"Geist Mono";font-size:12px;color:var(--mute);text-transform:uppercase}
+#lw .pa{background:var(--paper);color:var(--ink);border-color:var(--paper)}
+#lw .pa .pr b{color:var(--ink)}
+#lw .pa .tag, #lw .pa .pr span, #lw .pa .fine{color:#5d5a52}
+#lw .pa ul, #lw .pa li{border-color:#cfc8b8}
+#lw .pa li:before{background:var(--ink)}
+#lw .plus{font-weight:700;margin-bottom:12px}
+#lw .shield{margin-top:20px;background:var(--ink);color:var(--paper);padding:14px 16px;font-size:14px;line-height:1.45;border-left:4px solid var(--sig)}
+#lw .exit{grid-column:1/13;margin-top:24px;padding:18px 0;border-top:1px solid var(--line);font-size:15px;color:var(--mute)}
+#lw .exit b{color:var(--paper)}
+#lw .calc{grid-column:6/13;background:var(--white,#fbf9f4);border:2px solid var(--ink);padding:28px}
+#lw .seg{display:grid;grid-template-columns:1fr 1fr;border:2px solid var(--ink);margin-bottom:22px}
+#lw .seg button{font:700 15px Archivo;padding:12px;border:0;background:transparent;color:var(--ink);cursor:pointer}
+#lw .seg button.on{background:var(--ink);color:var(--sig)}
+#lw .ctl label{display:flex;justify-content:space-between}
+#lw .ctl label b{font-family:"Archivo Black";font-size:22px;color:var(--ink)}
+#lw input[type=range]{width:100%;accent-color:#0b0b0a;margin:10px 0 18px}
+#lw .lines div{display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid #d8d2c4;font-size:15px}
+#lw .lines div span:last-child{font-family:"Geist Mono"}
+#lw .lines .tot{border-bottom:2px solid var(--ink);padding:16px 0}
+#lw .lines .tot span{font-family:"Archivo Black"!important;font-size:30px;letter-spacing:-.03em}
+#lw .lines .m1{color:#5d5a52;font-size:14px}
+#lw .disc{font-size:12.5px;color:#5d5a52;margin-top:14px;line-height:1.45}
+#lw .assess{background:var(--sig);color:var(--ink)}
+#lw .assess h3{font-family:"Archivo Black";font-size:36px;letter-spacing:-.03em;margin:10px 0}
+#lw .assess p{font-size:16px;line-height:1.5;max-width:720px}
+#lw .btn.k{background:var(--ink);color:var(--sig);border-color:var(--ink)}
+#lw .bf{grid-column:4/13;display:flex;flex-wrap:wrap;gap:10px}
+#lw .bf span{border:1px solid var(--line);padding:10px 16px;font-family:"Geist Mono";font-size:13px;text-transform:uppercase}
+#lw .faq{grid-column:1/13;display:grid;grid-template-columns:repeat(3,1fr);border-top:1px solid var(--line)}
+#lw .faq div{padding:26px 28px 30px 0;border-bottom:1px solid var(--line)}
+#lw .faq b{font-family:"Archivo Black";font-size:20px;letter-spacing:-.02em;display:block;margin-bottom:10px}
+#lw .faq p{color:var(--mute);font-size:15px;line-height:1.55}
+#lw .h4{height:731px;position:relative;overflow:hidden;display:grid;grid-template-columns:repeat(12,1fr);padding:40px}
+#lw canvas{position:absolute;inset:0;width:100%;height:100%}
+#lw .t{grid-column:1/8;align-self:end;position:relative;z-index:2}
+#lw h1{font-size:150px}
+#lw h1 span{color:var(--sig)}
+#lw .t p{font-size:19px;line-height:1.5;max-width:560px;margin:26px 0 26px;background:var(--ink);padding:4px 0}
+#lw .t .btn+.btn{margin-left:10px}
+#lw .card{grid-column:9/13;align-self:end;position:relative;z-index:2;background:var(--ink);border:1px solid var(--line);padding:20px 22px}
+#lw .card div{display:flex;justify-content:space-between;padding:11px 0;border-bottom:1px solid var(--line);font-family:"Geist Mono";font-size:13px}
+#lw .card div:last-child{border:0}
+#lw .card em{font-style:normal;color:var(--sig)}
+
+/* Links keep the locked colors. Anchors are used so the nav, footer, and
+   buttons work; they are not underlined and they do not pick up a template blue. */
+#lw a { text-decoration: none; }
+#lw nav .logo,
+#lw nav .logo:visited { color: var(--paper); }
+#lw nav .links a,
+#lw nav .links a:visited { color: var(--mute); }
+#lw footer a,
+#lw footer a:visited { color: inherit; }
+#lw .btn { color: var(--paper); background: transparent; border-radius: 0; }
+#lw .btn.y { background: var(--sig); color: var(--ink); border-color: var(--sig); }
+#lw .btn.k { background: var(--ink); color: var(--sig); border-color: var(--ink); }
+#lw .cta2 .btn { background: var(--ink); color: var(--sig); border-color: var(--ink); }
+#lw .seg button { border-radius: 0; }
+#lw .btn,
+#lw nav a,
+#lw footer a,
+#lw .seg button { cursor: pointer; touch-action: manipulation; }
+#lw a:focus-visible,
+#lw button:focus-visible,
+#lw input:focus-visible {
+  outline: 2px solid var(--sig);
+  outline-offset: 3px;
+}
+#lw .assess a:focus-visible,
+#lw .cta2 a:focus-visible,
+#lw .paper button:focus-visible,
+#lw .paper a:focus-visible,
+#lw .seg button:focus-visible { outline-color: var(--ink); }
+#lw h1, #lw h2, #lw h3 { overflow-wrap: break-word; }
+#lw canvas.dither { pointer-events: none; }
+
+/* Legal pages use the same grid, type, and ink field as the homepage. */
+#lw .legal .doc { grid-column: 1 / 10; max-width: 760px; }
+#lw .legal h1 {
+  font-family: "Archivo Black", sans-serif;
+  font-size: 72px;
+  letter-spacing: -0.05em;
+  line-height: 0.92;
+  margin: 14px 0 16px;
+}
+#lw .legal .updated {
+  font-family: "Geist Mono", monospace;
+  font-size: 12px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--mute);
+  margin: 0 0 28px;
+}
+#lw .legal h2 {
+  font-family: "Archivo Black", sans-serif;
+  font-size: 28px;
+  letter-spacing: -0.03em;
+  line-height: 1.15;
+  margin: 34px 0 12px;
+}
+#lw .legal p {
+  font-size: 17px;
+  line-height: 1.6;
+  margin: 0 0 14px;
+  color: var(--paper);
+  max-width: 68ch;
+}
+#lw .legal blockquote {
+  margin: 0 0 28px;
+  padding: 16px 18px;
+  border-left: 4px solid var(--sig);
+  background: #141412;
+  color: var(--paper);
+  font-size: 18px;
+  line-height: 1.5;
+}
+#lw .legal ul,
+#lw .legal ol {
+  margin: 0 0 16px;
+  padding-left: 1.25em;
+  max-width: 68ch;
+}
+#lw .legal ul { list-style: disc; }
+#lw .legal ol { list-style: decimal; }
+#lw .legal li {
+  font-size: 17px;
+  line-height: 1.6;
+  margin: 0 0 10px;
+  padding-left: 0.3em;
+}
+#lw .legal li::marker { color: var(--sig); }
+#lw .legal strong { font-weight: 700; }
+#lw .legal .contact {
+  margin-top: 28px;
+  padding-top: 16px;
+  border-top: 1px solid var(--line);
+}
+
+@media (max-width: 1100px) {
+  #lw nav {
+    display: flex !important;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 12px 16px;
+    padding: 16px 20px !important;
+  }
+  #lw nav .logo { font-size: 20px; }
+  #lw nav .links {
+    order: 3;
+    width: 100%;
+    display: flex !important;
+    flex-wrap: wrap;
+    gap: 8px 14px;
+  }
+  #lw nav .links a { padding: 4px 0; }
+  #lw nav .cta { margin-left: auto; }
+  #lw .h4 {
+    display: flex !important;
+    flex-direction: column;
+    height: auto !important;
+    min-height: 0 !important;
+    padding: 28px 20px 36px !important;
+    gap: 22px;
+  }
+  #lw .h4 > .tag {
+    position: static !important;
+    top: auto !important;
+    left: auto !important;
+    background: var(--ink);
+  }
+  #lw .t, #lw .card {
+    align-self: stretch !important;
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+  }
+  #lw .t .tag {
+    display: inline-block;
+    background: var(--ink);
+    padding: 4px 6px 4px 0;
+  }
+  #lw .h4 .btn:not(.y) { background: var(--ink); }
+  #lw .card div { gap: 12px; }
+  #lw h1 { font-size: 56px !important; }
+  #lw .t p { font-size: 17px !important; max-width: none !important; }
+  #lw .t .btn { margin: 0 10px 10px 0; }
+  #lw .t .btn + .btn { margin-left: 0 !important; }
+  #lw .wrap {
+    display: flex !important;
+    flex-direction: column;
+    gap: 22px;
+    padding: 48px 20px !important;
+  }
+  #lw .wrap > * { min-width: 0; max-width: 100%; }
+  #lw .sh {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: 12px;
+    margin-bottom: 8px !important;
+  }
+  #lw h2 { font-size: 40px !important; }
+  #lw .legal h1 { font-size: 48px !important; }
+  #lw .legal h2 { font-size: 26px !important; }
+  #lw .plans,
+  #lw .svc,
+  #lw .stack,
+  #lw .faq { grid-template-columns: 1fr !important; }
+  #lw .stack { gap: 18px; }
+  #lw .svc div {
+    margin-right: 0 !important;
+    border-right: 0 !important;
+    border-bottom: 1px solid var(--line);
+    padding: 22px 0 !important;
+  }
+  #lw .svc div:last-child { border-bottom: 0; }
+  #lw .times {
+    display: grid !important;
+    grid-template-columns: 1fr !important;
+    gap: 22px !important;
+  }
+  #lw .assess-cta { text-align: left !important; }
+  #lw .au {
+    display: flex !important;
+    flex-direction: column;
+    min-height: 0 !important;
+  }
+  #lw .au .l {
+    padding: 48px 20px !important;
+    border-right: 0 !important;
+    border-bottom: 1px solid var(--line);
+  }
+  #lw .au .r { min-height: 300px; width: 100%; }
+  #lw .cta2 {
+    display: block !important;
+    padding: 56px 20px !important;
+  }
+  #lw .cta2 h2 { font-size: 56px !important; }
+  #lw .cta2 .s { margin-top: 16px; }
+  #lw footer {
+    display: flex !important;
+    flex-direction: column;
+    gap: 18px;
+    padding: 32px 20px 48px !important;
+  }
+  #lw .bf { gap: 8px; }
+  #lw .calc, #lw .plan, #lw .plans { width: 100%; max-width: 100%; min-width: 0; }
+  #lw .pr { flex-wrap: wrap; min-width: 0; }
+  #lw .pr b { max-width: 100%; }
+  #lw .fine { overflow-wrap: anywhere; }
+  #lw .lines div { gap: 12px; min-width: 0; }
+}
+
+@media (max-width: 640px) {
+  #lw h1 { font-size: 46px !important; }
+  #lw h2 { font-size: 36px !important; }
+  #lw .legal h1 { font-size: 40px !important; }
+  #lw .cta2 h2 { font-size: 48px !important; }
+  #lw .times b { font-size: 68px !important; }
+  #lw .t .btn,
+  #lw .assess-cta .btn,
+  #lw .cta2 .btn,
+  #lw .au .l .btn {
+    display: block;
+    width: 100%;
+    text-align: center;
+    margin: 0 0 10px !important;
+    box-sizing: border-box;
+  }
+  #lw .stamp {
+    width: auto;
+    left: 16px;
+    right: 16px;
+    bottom: 16px;
+  }
+  #lw .seg button {
+    font-size: 13px !important;
+    padding: 10px 6px !important;
+  }
+  #lw .lines .tot {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+  }
+  #lw .pr b { font-size: 72px !important; }
+}
+
+
+/* Squarespace template chrome.
+   These rules run only on pages that contain the lichtwerk block (#lw).
+   The template header and footer are hidden because every lichtwerk page
+   draws its own nav and footer. Page sections are pulled edge to edge so
+   the Swiss grid is not inset by the template's content width. */
+
+body:has(#lw) header#header,
+body:has(#lw) #header,
+body:has(#lw) .header,
+body:has(#lw) .Header,
+body:has(#lw) .header-announcement-bar-wrapper,
+body:has(#lw) .sqs-announcement-bar,
+body:has(#lw) .sqs-announcement-bar-dropzone,
+body:has(#lw) #announcement-bar,
+body:has(#lw) .Mobile-bar,
+body:has(#lw) #mobileNav,
+body:has(#lw) #footer-sections,
+body:has(#lw) footer#footer-sections,
+body:has(#lw) #footer,
+body:has(#lw) footer.Footer {
+  display: none !important;
+}
+
+body:has(#lw) {
+  padding-top: 0 !important;
+  margin-top: 0 !important;
+  background: #0b0b0a !important;
+  overflow-x: hidden !important;
+}
+
+body:has(#lw) #siteWrapper,
+body:has(#lw) #page,
+body:has(#lw) article.sections,
+body:has(#lw) .page-section,
+body:has(#lw) .section-background,
+body:has(#lw) .section-border {
+  background: #0b0b0a !important;
+  background-color: #0b0b0a !important;
+}
+
+body:has(#lw) .page-section,
+body:has(#lw) .content-wrapper,
+body:has(#lw) .content,
+body:has(#lw) .sqs-layout,
+body:has(#lw) .fluid-engine,
+body:has(#lw) .row,
+body:has(#lw) .col,
+body:has(#lw) .sqs-block,
+body:has(#lw) .sqs-block-content,
+body:has(#lw) .sqs-html-content {
+  padding: 0 !important;
+  margin-top: 0 !important;
+  margin-bottom: 0 !important;
+  border: 0 !important;
+  max-width: none !important;
+}
+
+body:has(#lw) .fluid-engine {
+  display: block !important;
+  --grid-gutter: 0px !important;
+  --column-gap: 0px !important;
+  --row-gap: 0px !important;
+  --inset-padding: 0px !important;
+}
+
+body:has(#lw) .fe-block:has(#lw) {
+  width: 100% !important;
+  max-width: none !important;
+  margin: 0 !important;
+  position: relative !important;
+}
+
+/* Drop a Squarespace page-title section. The code block section stays. */
+body:has(#lw) .page-section:not(:has(#lw)),
+body:has(#lw) .page-title,
+body:has(#lw) h1.page-title {
+  display: none !important;
+}
+
+/* Break the block out of a centered content column if one remains. */
+body:has(#lw) #lw {
+  width: 100vw;
+  max-width: 100vw;
+  position: relative;
+  left: 50%;
+  margin-left: -50vw;
+  margin-right: -50vw;
+  box-sizing: border-box;
+}
+
+/* Template buttons and headings should not restyle the design. */
+#lw .seg button {
+  font-family: "Archivo", sans-serif !important;
+  font-weight: 700 !important;
+  font-size: 15px !important;
+  line-height: normal !important;
+  letter-spacing: normal !important;
+  text-transform: none !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  margin: 0 !important;
+  width: auto;
+}
+#lw .btn {
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  text-decoration: none !important;
+  line-height: normal !important;
+}
+#lw input[type="range"] {
+  background: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+  accent-color: #0b0b0a !important;
+  width: 100% !important;
+  margin: 10px 0 18px !important;
+  height: auto !important;
+}
+#lw h1, #lw h2, #lw h3, #lw p, #lw li {
+  text-transform: none;
+}
+
+@media (max-width: 640px) {
+  #lw .seg button {
+    font-size: 13px !important;
+    padding: 10px 6px !important;
+  }
+}
